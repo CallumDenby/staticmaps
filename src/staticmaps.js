@@ -35,6 +35,7 @@ class StaticMaps {
     this.tileSize = this.options.tileSize || 256;
     this.tileRequestTimeout = this.options.tileRequestTimeout;
     this.tileRequestHeader = this.options.tileRequestHeader;
+    this.overlays = this.options.overlays || [];
     this.reverseY = this.options.reverseY || false;
 
     // # features
@@ -203,6 +204,18 @@ class StaticMaps {
             this.yToPx(y + 1),
           ],
         });
+        
+        this.overlays.forEach(overlay => {
+          result.push({
+            url: overlay.replace('{z}', this.zoom).replace('{x}', tileX).replace('{y}', tileY),
+            box: [
+              this.xToPx(x),
+              this.yToPx(y),
+              this.xToPx(x + 1),
+              this.yToPx(y + 1),
+            ],
+          });
+        }
       }
     }
 
